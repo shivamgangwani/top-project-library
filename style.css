@@ -2,7 +2,7 @@
     font-family:Arial, Helvetica, sans-serif;
     margin: 0;
     box-sizing: border-box;
-
+    
     font-weight: 300;
     font-size: 1.25rem;
 }
@@ -181,6 +181,12 @@ body {
     background-color: aquamarine;
 }
 
+.alert-success {
+    border: 1px solid green;
+    background-color: seagreen;
+    color: white;
+}
+
 .alert-error {
     border: 1px solid black;
     color: white;
@@ -192,4 +198,62 @@ body {
 
 .hidden {
     opacity: 0;
+}
+
+
+dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.9);
+}
+
+dialog#add-new-book {
+    margin-top: 5vh;
+    margin-left: 30vw;
+    border: 2px solid green;
+    width: 40vw;
+}
+
+.form-field {
+    margin-top: 2rem;
+}
+
+
+.form-field label {
+    font-size: 0.8rem;
+    display: block;
+    margin-bottom: 0.2rem;
+}
+
+.form-field input[type='text'], .form-field input[type='number'] {
+    border: 1px solid lightgrey;
+    border-radius: 8px;
+    padding: 0.25rem 1rem;
+    width: 100%;
+}
+
+.form-field input[type="checkbox"] {
+    height: 20px;
+    width: 20px;
+}
+
+.flex-y-center {
+    display: flex; 
+}
+
+.form-field label.same-line {
+    margin-left: 0.8rem;
+    font-size: 1rem;
+}
+
+.form-buttons {
+    display: flex;
+    gap: 1rem;
+}
+
+#add-new-book .button {
+    flex-grow: 1;
+    margin-top: 1rem;
+    border: 0px;
+    background-color: midnightblue;
+    padding: 0.6rem 2rem;
+    color: white;
 }

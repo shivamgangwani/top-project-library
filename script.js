@@ -29,8 +29,11 @@ myLibrary.push(
 	new Book("Book4", "Author1", 180, false),
 );
 
-function addBookToLibrary() {
-	// do stuff here
+function addBookToLibrary(book_info) {
+	const newBook = new Book(book_info.title, book_info.author, book_info.pages, book_info.read);
+	myLibrary.push(newBook);
+	bookDisplay.appendChild(createBookCard(newBook));
+	return newBook.idx;
 }
 
 function createBookCard(book) {
@@ -108,7 +111,7 @@ function createToggleReadForBook(book) {
 	let cardControlsToggleReadIcon = document.createElement("img");
 	let tmpSrc = book.read ? "assets/checkbox-ticked.svg" : "assets/checkbox-blank.svg"
 	cardControlsToggleReadIcon.setAttribute("src", tmpSrc);
-	
+
 	cardControlsToggleRead.appendChild(cardControlsToggleReadIcon);
 	cardControlsToggleRead.addEventListener("click", () => toggleBookRead(book.idx));
 	return cardControlsToggleRead;
@@ -133,6 +136,30 @@ function createAlert(message, type='info', time=3000) {
 	alertBox.scrollTop = alertBox.scrollHeight;
 }
 
+
+const addBookDialog = document.querySelector('dialog#add-new-book');
+document.querySelector('button#btn-add-book').addEventListener('click', () => addBookDialog.showModal());
+document.querySelector('button#close-add-book-dialog').addEventListener('click', () => addBookDialog.close(false));
+
+document.querySelector("button#addBookBtn").addEventListener('click', (e) => {
+	e.preventDefault();
+	info = {
+		title: addBookDialog.querySelector("input[name='book-title']").value,
+		author: addBookDialog.querySelector("input[name='book-author']").value,
+		pages: addBookDialog.querySelector("input[name='book-pages']").value,
+		read: addBookDialog.querySelector("input[name='book-read']").ticked
+	}
+
+	if(!(info.title && info.author && info.pages)) return alert("Please fill all the required fields!");
+	const nidx = addBookToLibrary(book_info=info);
+	addBookDialog.close(`Added Book #${nidx}: ${info.title} by ${info.author}`);
+	addBookDialog.querySelector("form").reset();
+});
+
+addBookDialog.addEventListener("close", (e) => {
+	const rval = addBookDialog.returnValue;
+	if(rval !== "false") createAlert(rval, "success");
+});
 
 function renderBooks() {
 	bookDisplay.innerHTML = "";

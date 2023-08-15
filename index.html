@@ -14,10 +14,41 @@
             <h1>Project: Library</h1>
         </div>
         <div id="controls">
-            <button class="btn">Add Book</button>
+            <button class="btn" id="btn-add-book">Add Book</button>
             <button class="btn">Reset Books</button>
         </div>
         <div id="books"></div>
     </div>
+    
+    <dialog id="add-new-book">
+        <form method="dialog">
+            <h1>Add a New Book</h1>
+            <div class="form-field">
+                <label for="book-title">Title *</label>
+                <input type="text" name="book-title" id="book-title" placeholder="Oliver Twist" required>
+            </div>
+
+            <div class="form-field">
+                <label for="book-author">Author *</label>
+                <input type="text" name="book-author" id="book-author" placeholder="Charles Dickens" required>
+            </div>
+
+
+            <div class="form-field">
+                <label for="book-pages">Pages *</label>
+                <input type="number" name="book-pages" id="book-pages" placeholder="0" required>
+            </div>
+
+            <div class="form-field flex-y-center">
+                <input type="checkbox" name="book-read" id="book-read" placeholder="false">
+                <label class="same-line" for="book-pages">Read</label>
+            </div>
+
+            <div class="form-buttons">
+                <button type="button" class="button" id="close-add-book-dialog">Close</button>
+                <button type="button" class="button" id="addBookBtn">Add</button>
+            </div>
+        </form>
+    </dialog>
 </body>
 </html>
