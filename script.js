@@ -169,4 +169,11 @@ function renderBooks() {
 	}
 }
 
+function resetLibrary() {
+	bookDisplay.innerHTML = "";
+	myLibrary = [];
+}
+
+document.querySelector("button#btn-reset-library").addEventListener("click", () => resetLibrary());
+
 renderBooks();
