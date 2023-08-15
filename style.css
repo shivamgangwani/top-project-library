@@ -103,6 +103,14 @@ h1 {
     border-bottom-left-radius: 0px !important;
     padding: 0 !important;
     overflow: hidden;
+    opacity: 0.2;
+    transition: 0.2s;
+    filter: grayscale(100%);
+}
+
+.book-card:hover .book-card-controls {
+    filter: grayscale(0%);
+    opacity: 1;
 }
 
 .book-card-controls div {
