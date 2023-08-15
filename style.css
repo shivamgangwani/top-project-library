@@ -1,3 +1,130 @@
 * {
     font-family:Arial, Helvetica, sans-serif;
+    margin: 0;
+    box-sizing: border-box;
+
+    font-weight: 300;
+    font-size: 1.25rem;
+}
+
+h1 {
+    font-size: 2rem;
+}
+
+#content {
+    margin: 0rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#content > div {
+    margin-top: 2rem;
+}
+
+#controls button {
+    font-size: 1rem;
+    border: 2px solid transparent;
+    padding: 0.8rem 3rem;
+    background-color: beige;
+    transition: 0.2s;
+}
+
+#controls button:hover {
+    transform: translateY(4px);
+    background-color: midnightblue;
+    color: white;
+}
+
+#books {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+}
+
+.book-card {
+    margin-bottom: 2rem;
+    border: 1px solid lightgrey;
+    border-radius: 12px;
+    flex: 1;
+    display: grid; 
+    grid-template: 1fr / 1fr 4fr 1fr;
+    gap: 1rem;
+    transition: 0.2s;
+}
+
+.book-card:hover {
+    border: 1px solid black;
+}
+
+.book-card > div {
+    padding: 4rem 2rem;
+    border-radius: 12px;
+}
+
+.book-card-image {
+    background-color:beige;
+    border-top-right-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
+    transition: 0.2s;
+}
+
+.book-card-image img {
+    width: 100%;
+    height: auto;
+    transition: 0.2s;
+}
+
+.book-card:hover .book-card-image {
+    background-color: midnightblue;
+}
+
+.book-card:hover .book-card-image img {
+    filter: invert();
+}
+
+.book-card-info-author {
+    color: grey;
+    font-size: 0.9rem;
+}
+
+.book-card-info-pages {
+    color: grey;
+    font-size: 0.6rem;
+    margin-top: 1rem;
+}
+
+.book-card-controls {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    border-left: 1px solid lightgrey;
+    border-top-left-radius: 0px !important;
+    border-bottom-left-radius: 0px !important;
+    padding: 0 !important;
+    overflow: hidden;
+}
+
+.book-card-controls div {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.book-card-controls div img {
+    height: 50%;
+    width: auto;
+}
+
+.book-delete-btn {
+    background-color: red;
+}
+
+.book-read {
+    background-color: aquamarine;
+}
+
+.book-not-read {
+    background-color: lightgrey;
 }
