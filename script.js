@@ -147,7 +147,7 @@ document.querySelector("button#addBookBtn").addEventListener('click', (e) => {
 		title: addBookDialog.querySelector("input[name='book-title']").value,
 		author: addBookDialog.querySelector("input[name='book-author']").value,
 		pages: addBookDialog.querySelector("input[name='book-pages']").value,
-		read: addBookDialog.querySelector("input[name='book-read']").ticked
+		read: addBookDialog.querySelector("input[name='book-read']").checked
 	}
 
 	if(!(info.title && info.author && info.pages)) return alert("Please fill all the required fields!");
