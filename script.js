@@ -1,13 +1,26 @@
 console.log("Script loaded");
 
 let myLibrary = [];
+let bookIdxCount = 0;
+const bookDisplay = document.querySelector("div#books");
+const alertBox = document.querySelector("div#alert-box");
 
 function Book(title, author, pages, read) {
+	this.idx = bookIdxCount;
 	this.title = title;
 	this.author = author;
 	this.pages = pages;
 	this.read = read;
+	bookIdxCount++;
 }
+
+function getBookArrayIdx(idx) {
+	// For a given book ID, find the corresponding array index in myLibrary
+	for(let i=0; i<myLibrary.length; i++) {
+		if(myLibrary[i].idx == idx) return i;
+	}
+}
+
 
 myLibrary.push(
 	new Book("Book1", "Author1", 200, false),
@@ -55,23 +68,78 @@ function createBookCard(book) {
 	let cardControlsDeleteIcon = document.createElement("img");
 	cardControlsDeleteIcon.setAttribute("src", "assets/delete.svg");
 	cardControlsDelete.appendChild(cardControlsDeleteIcon);
+	cardControlsDelete.addEventListener("click", () => deleteBook(book.idx));
 	cardControls.appendChild(cardControlsDelete);
 
-	let cardControlsToggleRead = document.createElement("div");
-	cardControlsToggleRead.classList.add("book-toggle-read-btn");
-	let cardControlsToggleReadIcon = document.createElement("img");
-	let tmpSrc = book.read ? "assets/checkbox-ticked.svg" : "assets/checkbox-blank.svg"
-	let tmpClass = book.read ? "book-read" : "book-not-read";
-	cardControlsToggleRead.classList.add(tmpClass);
-	cardControlsToggleReadIcon.setAttribute("src", tmpSrc);
-	cardControlsToggleRead.appendChild(cardControlsToggleReadIcon);
+	let cardControlsToggleRead = createToggleReadForBook(book);
 	cardControls.appendChild(cardControlsToggleRead);
 
 	card.appendChild(cardImgContainer);
 	card.appendChild(cardInfoContainer);
 	card.appendChild(cardControls);
+	card.setAttribute("book-idx", book.idx);
 	return card;
 }
 
-const bookDisplay = document.querySelector("div#books");
-myLibrary.forEach((book) => bookDisplay.appendChild(createBookCard(book)));
+function deleteBook(book_idx) {
+	let deleted_idx = getBookArrayIdx(book_idx);
+	let deleted = myLibrary.splice(deleted_idx, 1)[0];
+	const selector = `.book-card[book-idx="${book_idx}"]`;
+	document.querySelector(selector).remove();
+	createAlert(`Deleted Book #${book_idx}: ${deleted.title}`, 'error', 2500);
+}
+
+function toggleBookRead(book_idx) {
+	const tar_idx = getBookArrayIdx(book_idx);
+	const book = myLibrary[tar_idx];
+	myLibrary[tar_idx].read = !book.read;
+	const selector = `.book-card[book-idx="${book_idx}"] .book-toggle-read-btn`;
+	document.querySelector(selector).replaceWith(createToggleReadForBook(book));
+	if(book.read) createAlert(`Marked as read: Book #${tar_idx}: ${book.title}`);
+	else createAlert(`Marked as unread: Book #${tar_idx}: ${book.title}`);
+}
+
+function createToggleReadForBook(book) {
+	let cardControlsToggleRead = document.createElement("div");
+	cardControlsToggleRead.classList.add("book-toggle-read-btn");
+	let tmpClass = book.read ? "book-read" : "book-not-read";
+	cardControlsToggleRead.classList.add(tmpClass);
+
+	let cardControlsToggleReadIcon = document.createElement("img");
+	let tmpSrc = book.read ? "assets/checkbox-ticked.svg" : "assets/checkbox-blank.svg"
+	cardControlsToggleReadIcon.setAttribute("src", tmpSrc);
+	
+	cardControlsToggleRead.appendChild(cardControlsToggleReadIcon);
+	cardControlsToggleRead.addEventListener("click", () => toggleBookRead(book.idx));
+	return cardControlsToggleRead;
+}
+
+function createAlert(message, type='info', time=3000) {
+	let alertCard = document.createElement("div");
+	alertCard.classList.add('alert', `alert-${type}`);
+	let alertCardIcon = document.createElement("div");
+	alertCardIcon.classList.add("alert-icon");
+	let alertCardIconImg = document.createElement("img");
+	alertCardIconImg.setAttribute("src", "assets/alert.svg");
+	alertCardIcon.appendChild(alertCardIconImg);
+	let alertCardMessage = document.createElement("div");
+	alertCardMessage.classList.add("alert-message");
+	alertCardMessage.textContent = message;
+	alertCard.appendChild(alertCardIcon);
+	alertCard.appendChild(alertCardMessage);
+	alertBox.appendChild(alertCard);
+	setTimeout(() => alertCard.classList.add('hidden'), time - 500);
+	setTimeout(() => alertCard.remove(), time);
+	alertBox.scrollTop = alertBox.scrollHeight;
+}
+
+
+function renderBooks() {
+	bookDisplay.innerHTML = "";
+	for(let idx = 0; idx < myLibrary.length; idx++) {
+		let book = myLibrary[idx];
+		bookDisplay.appendChild(createBookCard(book));
+	}
+}
+
+renderBooks();

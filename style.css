@@ -58,7 +58,7 @@ h1 {
 }
 
 .book-card > div {
-    padding: 4rem 2rem;
+    padding: 2rem 2rem;
     border-radius: 12px;
 }
 
@@ -135,4 +135,61 @@ h1 {
 
 .book-not-read {
     background-color: lightgrey;
+}
+
+body {
+    position: relative;
+}
+
+#alert-box {
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    width: 25vw;
+    display: flex;
+    flex-direction: column;
+    max-height: 31vh;
+    overflow: hidden;
+}
+
+.alert {
+    border: 1px solid lightgrey;
+    border-radius: 6px;
+    padding: 0.2rem 0.2rem;
+    margin-bottom: 0.3rem;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    transition: 0.5s;
+}
+.alert-message {
+    font-size: 0.65rem;
+    flex-grow: 1;
+}
+
+.alert-icon img {
+    height: 40px;
+    width: auto;
+}
+.alert-icon {
+    width: 60px;
+    flex-grow: 0;
+}
+
+.alert-info {
+    border: 1px solid teal;
+    background-color: aquamarine;
+}
+
+.alert-error {
+    border: 1px solid black;
+    color: white;
+    background-color: red;
+}
+.alert-error::before {
+    filter: invert();
+}
+
+.hidden {
+    opacity: 0;
 }
