@@ -34,7 +34,6 @@ const Library = (function(){
 		books.push(newBook);
 		bookIdxCount++;
 		bookDisplay.appendChild(createBookCard(newBook));
-		renderBooks();
 		return newBook.idx;
 	}
 
