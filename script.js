@@ -21,33 +21,30 @@ function createAlert(message, type='info', time=3000) {
 }
 
 
-class LibraryDisplay {
-	static bookDisplay = document.querySelector("div#books");
-	static clearDisplay() {
-		LibraryDisplay.bookDisplay.innerHTML = "";
-	}
+const Library = (function(){
+	let books = [];
+	let bookIdxCount = 1;
 
-	constructor() {
-		this.books = [];
-		this.bookIdxCount = 1;
-	}
+	bookDisplay = document.querySelector("div#books");
+	clearDisplay = () => bookDisplay.innerHTML = "";
 
-	addBook(book_info) {
-		const newBook = new Book(this.bookIdxCount, book_info.title, book_info.author, book_info.pages, book_info.read);
-		this.books.push(newBook);
-		this.bookIdxCount++;
-		LibraryDisplay.bookDisplay.appendChild(newBook.createBookCard());
+
+	addBook = (book_info) => {
+		const newBook = new Book(bookIdxCount, book_info.title, book_info.author, book_info.pages, book_info.read);
+		books.push(newBook);
+		bookIdxCount++;
+		bookDisplay.appendChild(newBook.createBookCard());
+		renderBooks();
 		return newBook.idx;
 	}
 
-	deleteBook(book) {
-		this.books = this.books.filter((i_book) => (i_book !== book))
-		const selector = `.book-card[book-idx="${book.idx}"]`;
-		document.querySelector(selector).remove();
+	deleteBook = (book) => {
+		books = books.filter((i_book) => (i_book !== book))
+		document.querySelector(`.book-card[book-idx="${book.idx}"]`).remove();
 		createAlert(`Deleted Book #${book.idx}: ${book.title}`, 'error', 2500);
 	}
 
-	toggleBookRead(book) {
+	toggleBookRead = (book) => {
 		book.read = !book.read;
 		const selector = `.book-card[book-idx="${book.idx}"] .book-toggle-read-btn`;
 		document.querySelector(selector).replaceWith(book.createToggleReadForBook());
@@ -55,17 +52,17 @@ class LibraryDisplay {
 		else createAlert(`Marked as unread: Book #${book.idx}: ${book.title}`);
 	}
 
-	renderBooks() {
-		LibraryDisplay.clearDisplay();
-		this.books.forEach((book) => LibraryDisplay.bookDisplay.appendChild(book.createBookCard()));
+	renderBooks = () => {
+		clearDisplay();
+		books.forEach((book) => bookDisplay.appendChild(book.createBookCard()));
 	}
 
-	resetLibrary() {
-		LibraryDisplay.clearDisplay();
-		this.books = [];
+	resetLibrary = () => {
+		clearDisplay();
+		books = [];
 	}
 
-	init() {
+	init = () => {
 		const addBookDialog = document.querySelector('dialog#add-new-book');
 		document.querySelector('button#btn-add-book').addEventListener('click', () => addBookDialog.showModal());
 		document.querySelector('button#close-add-book-dialog').addEventListener('click', () => addBookDialog.close(false));
@@ -80,7 +77,7 @@ class LibraryDisplay {
 			}
 		
 			if(!(book_info.title && book_info.author && book_info.pages)) return alert("Please fill all the required fields!");
-			const nidx = Library.addBook(book_info);
+			const nidx = addBook(book_info);
 			addBookDialog.close(`Added Book #${nidx}: ${book_info.title} by ${book_info.author}`);
 			addBookDialog.querySelector("form").reset();
 		});
@@ -90,13 +87,13 @@ class LibraryDisplay {
 			if(rval !== "false") createAlert(rval, "success");
 		});
 		
-		document.querySelector("button#btn-reset-library").addEventListener("click", () => Library.resetLibrary());
-
-		Library.renderBooks();
+		document.querySelector("button#btn-reset-library").addEventListener("click", () => resetLibrary());
+		renderBooks();
 	}
-}
+	init();
 
-const Library = new LibraryDisplay();
+	return {books, addBook, deleteBook, toggleBookRead};
+})();
 
 class Book {
 	constructor(idx, title, author, pages, read) {
@@ -175,4 +172,3 @@ Library.addBook({title: "Book1", author:"Author1", pages:200, read:false});
 Library.addBook({title: "Book2", author:"Author2", pages:250, read:true});
 Library.addBook({title: "Book3", author:"Author3", pages:300, read:false});
 Library.addBook({title: "Book4", author:"Author4", pages:180, read:true});
-Library.init();
