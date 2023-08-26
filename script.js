@@ -45,10 +45,10 @@ const Library = (function(){
 	}
 
 	toggleBookRead = (book) => {
-		book.read = !book.read;
+		book.toggleReadStatus();
 		const selector = `.book-card[book-idx="${book.idx}"] .book-toggle-read-btn`;
 		document.querySelector(selector).replaceWith(book.createToggleReadForBook());
-		if(book.read) createAlert(`Marked as read: Book #${book.idx}: ${book.title}`);
+		if(book.isRead()) createAlert(`Marked as read: Book #${book.idx}: ${book.title}`);
 		else createAlert(`Marked as unread: Book #${book.idx}: ${book.title}`);
 	}
 
@@ -165,6 +165,14 @@ class Book {
 		card.appendChild(cardControls);
 		card.setAttribute("book-idx", this.idx);
 		return card;
+	}
+
+	toggleReadStatus() {
+		this.read = !this.read;
+	}
+
+	isRead() {
+		return this.read;
 	}
 }
 
